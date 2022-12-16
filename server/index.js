@@ -23,7 +23,7 @@ const start = async () => {
         await sequelize.authenticate()
         await sequelize.sync()
         app.listen(PORT, () => console.log('hello, port =', PORT));
-    } catch (e) {a
+    } catch (e) {
         console.log(e);
     }
 }
