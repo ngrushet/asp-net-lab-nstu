@@ -1,16 +1,16 @@
 import { observer } from "mobx-react-lite";
-import { Card, Col, Image } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 
 
-const DeviceItem = observer( ({device}) => {
+const ProductItem = observer( ({product}) => {
     return (
         <Col md={3}>
+            <div>hui</div>
             <Card style={{width: 150, cursor: 'pointer'}} border={"light"}>
-                <Image width={150} height={150} src={device.img}/>
                 <div>
-                    <div>Samsung</div>
+                    <div>product.title</div>
                     <div>
-                        <div>{device.rating}</div>
+                        <div>{product.rating}</div>
                     </div>
                 </div>
             </Card>
@@ -18,4 +18,4 @@ const DeviceItem = observer( ({device}) => {
     );
 })
 
-export default DeviceItem;
+export default ProductItem;

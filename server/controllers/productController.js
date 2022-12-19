@@ -5,12 +5,12 @@ class ProductController {
     async create(req, res, next) {
         console.log("Product create:");
         try {
-            let {title, categoryId, description} = req.body;
+            let {title, categoryId, description, article} = req.body;
             const categoryExist = await Category.findOne({where: {id: categoryId}}) 
             if (!categoryExist) {
                 next(ApiError.internalError('Категория с данным номером не существует'))
             } else {
-                const product = await Product.create({categoryId: categoryId, title: title, description: description});
+                const product = await Product.create({categoryId: categoryId, article: article, title: title, description: description});
                 return res.json(product);
             }
         } catch (e) {

@@ -1,10 +1,15 @@
 import React from 'react';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 const AdminPanel = () => {
   return (
-    <div>
-      Admin Panel
-    </div>
+    <Container>
+      <Row className='mt-2'>
+        <Col md={1}>
+          <Button>Добавить категорию</Button>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

@@ -9,6 +9,7 @@ const Admin = sequelize.define('admin', {
 
 const Product = sequelize.define('product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    article: {type: DataTypes.STRING, unique: true, allowNull: false},
     categoryId: {type: DataTypes.INTEGER, allowNull: false},
     title: {type: DataTypes.STRING, unique: true, allowNull: false},
     description: {type: DataTypes.STRING, unique: false, allowNull: false},

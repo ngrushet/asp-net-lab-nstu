@@ -1,23 +1,42 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import BrandBar from '../components/BrandBar'
-import DeviceList from '../components/DeviceList'
-import TypeBar from '../components/TypeBar'
+import ProductList from '../components/ProductList'
+import CategoryBar from '../components/CategoryBar'
+import { observer } from 'mobx-react-lite'
+import { fetchCategories, fetchProducts } from '../http/productAPI'
+import { Context } from '../index'
 
-const Shop = () => {
-  return (
-    <Container>
-      <Row className='mt-2'>
-        <Col md={3}>
-          <TypeBar/>
-        </Col>
-        <Col md={9}>
-          <BrandBar />
-          <DeviceList />
-        </Col>
-      </Row>
-    </Container>
-  )
-}
+const Shop = observer(() => {
+    const { product } = useContext(Context);
+
+    // useEffect(() => {
+    //     fetchCategories().then(data => product.setCategories(data))
+    //     fetchProducts(null).then(data => {
+    //         product.setProducts(data.rows)
+    //         product.setTotalCount(data.count)
+    //     })
+    // }, [])
+
+    useEffect(() => {
+        fetchCategories().then(data => product.setCategories(data))
+        fetchProducts(product.selectedCategory.id, product.page, 2).then(data => {
+            product.setProducts(data.rows)
+            product.setTotalCount(data.count)
+        })
+    }, [product.page, product.selectedType, product.selectedBrand,])
+    
+    return (
+        <Container>
+            <Row className='mt-2'>
+                <Col md={3}>
+                    <CategoryBar/>
+                </Col>
+                <Col md={9}>
+                    <ProductList />
+                </Col>
+            </Row>
+        </Container>
+    )
+});
 
 export default Shop
