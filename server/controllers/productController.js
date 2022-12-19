@@ -9,10 +9,15 @@ class ProductController {
             const categoryExist = await Category.findOne({where: {id: categoryId}}) 
             if (!categoryExist) {
                 next(ApiError.internalError('Категория с данным номером не существует'))
-            } else {
-                const product = await Product.create({categoryId: categoryId, article: article, title: title, description: description});
-                return res.json(product);
             }
+            const titleExist    = await Product.findOne({where: {title: title}});
+            if (titleExist)     next(ApiError.internalError('Товар с данным названием уже существует'));
+
+            const articleExist  = await Product.findOne({where: {article: article}});
+            if (articleExist)   next(ApiError.internalError('Товар с данным артикулом уже существует'));
+
+            const product = await Product.create({categoryId: categoryId, article: article, title: title, description: description});
+            return res.json(product);
         } catch (e) {
             next(ApiError.internalError(e.message));
         }

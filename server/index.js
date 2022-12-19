@@ -1,27 +1,24 @@
 require('dotenv').config()
 const express = require('express');
-const sequelize = require('./db')
 const cors = require('cors')
+
+// local modules
+const sequelize = require('./db')
 const router = require('./routes/index');
 const errorHandler = require('./middleware/errorHandlingMiddleware');
-const fileUpload = require('express-fileupload');
+
 const PORT = process.env.port || 5000
-const path = require('path');
 const app = express();
 
 app.use(cors())
-app.use(express.json())
-app.use(express.static(path.resolve(__dirname, 'static')))
-app.use(fileUpload({}))
-app.use('/api', router);
-
-// Обработка ошибок
-app.use(errorHandler)
+app.use(express.json())     
+app.use('/api', router);    // Подключение маршрутизатора API
+app.use(errorHandler)       // Обработчик ошибок
 
 const start = async () => {
     try {
-        await sequelize.authenticate()
-        await sequelize.sync()
+        await sequelize.authenticate()  // подключение к PostgreSQL через sequelize 
+        await sequelize.sync()          
         app.listen(PORT, () => console.log('Server started on port =', PORT));
     } catch (e) {
         console.log(e);
