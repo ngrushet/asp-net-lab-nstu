@@ -29,7 +29,6 @@ const start = async () => {
             console.log("\nСкорее всего root администратор уже создан.")
             console.log("postgres:",e.message);
         }
-
         app.listen(PORT, () => console.log('Server started on port =', PORT));
     } catch (e) {
         console.log(e);
