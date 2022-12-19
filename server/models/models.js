@@ -11,15 +11,14 @@ const Product = sequelize.define('product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     categoryId: {type: DataTypes.INTEGER, allowNull: false},
     title: {type: DataTypes.STRING, unique: true, allowNull: false},
-    description: {type: DataTypes.STRING, unique: true, allowNull: false},
+    description: {type: DataTypes.STRING, unique: false, allowNull: false},
 })
 
 const Category = sequelize.define('category', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    title: {type: DataTypes.STRING, unique: true, allowNull: false},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false},
 })
 
-Category.hasMany(Product)
 Product.belongsTo(Category)
 
 module.exports = {
