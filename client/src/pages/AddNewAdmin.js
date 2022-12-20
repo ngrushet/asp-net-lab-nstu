@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { observer } from "mobx-react-lite";
 import { Button, Card, Container, Form, Row } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
-import { login } from '../http/userAPI'
+import { NavLink, useLocation, useNavigate  } from 'react-router-dom'
+import { login, registration } from '../http/userAPI'
 import { LOGIN_ROUTE, ADMIN_ADD_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import { Context } from '../index'
 
@@ -12,32 +12,29 @@ const Auth = observer( () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const adminLogin = localStorage.getItem('user').login;
+    const adminPassword = localStorage.getItem('user').password;
+
     const click = async () => {
         try {
-            let data = await login(email, password);
-            if (data.passed === true) {
-                localStorage.setItem(
-                    'user',
-                    JSON.stringify({
-                        'login': email,
-                        'password': password
-                    })
-                )
-                localStorage.setItem('isAuth', true);
-                history.push(SHOP_ROUTE)
+            let data = await registration(email, password, adminLogin, adminPassword);
+            if (data.register) {
+                alert("new user added successfully");
+                history.push(ADMIN_ROUTE)
             } else {
-                alert({text: "smth went wrong"});
+                alert("smth went wrong");
             }
         } catch (e) {
             alert(e.response.data.message)
         }   
     }
+
   return (
     <Container
         className='d-flex justify-content-center align-items-center'
         style={{ height: window.innerHeight - 54 }}>
         <Card style={{ width: 600 }} className='p-5'>
-            <h2 className='m-auto'>Авторизация</h2>
+            <h2 className='m-auto'>Регистрация админа</h2>
             <Form className='d-flex flex-column'>
                 <Form.Control
                     className='mt-2'
@@ -58,7 +55,7 @@ const Auth = observer( () => {
                         className='mt-3'
                         variant={ 'outline-success' }
                         onClick={click}
-                    >Войти</Button>
+                    >Зарегистрировать</Button>
                 </Row>
             </Form>
         </Card>

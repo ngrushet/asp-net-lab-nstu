@@ -17,6 +17,7 @@ const Shop = observer(() => {
     //     })
     // }, [])
 
+    // хуйня какая то со страницами этими просто весь список выдать и всё
     useEffect(() => {
         fetchCategories().then(data => product.setCategories(data))
         fetchProducts(product.selectedCategory.id, product.page, 2).then(data => {
